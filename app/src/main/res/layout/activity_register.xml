@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#002e58"
+    android:gravity="center_horizontal"
+    tools:context="Activity.RegisterActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#002e58"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Register"
+                    android:textSize="37dp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In To Continue"
+                    android:textSize="18dp"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="40dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/light_blue"
+                android:padding="28dp">
+
+                <!-- Nama -->
+                <TextView android:text="Nama" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/namaEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Masukkan nama lengkap"
+                    android:background="@drawable/bg_edittext"
+                    android:textColor="@color/dark_blue" />
+
+                <!-- Email -->
+                <TextView android:text="Email Address" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="masukkan email"
+                    android:background="@drawable/bg_edittext"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/dark_blue"
+                    android:drawableEnd="@drawable/done_icon" />
+
+                <!-- Password -->
+                <TextView android:text="Password" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="masukkan password"
+                    android:background="@drawable/bg_edittext"
+                    android:inputType="textPassword"
+                    android:textColor="@color/dark_blue"
+                    android:drawableEnd="@drawable/visibilityof" />
+
+                <!-- Confirm Password -->
+                <TextView android:text="Konfirmasi Password" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/EdtConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="konfirmasi password"
+                    android:background="@drawable/bg_edittext"
+                    android:inputType="textPassword"
+                    android:textColor="@color/dark_blue"
+                    android:drawableEnd="@drawable/visibilityof" />
+
+                <!-- No HP -->
+                <TextView android:text="No HP" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/noHpEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Masukkan nomor HP"
+                    android:background="@drawable/bg_edittext"
+                    android:inputType="phone"
+                    android:textColor="@color/dark_blue" />
+
+                <!-- Alamat -->
+                <TextView android:text="Alamat" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/alamatEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:hint="Masukkan alamat"
+                    android:background="@drawable/bg_edittext"
+                    android:textColor="@color/dark_blue"
+                    android:gravity="top"
+                    android:inputType="textMultiLine" />
+
+                <!-- Jenis Kelamin -->
+                <TextView android:text="Jenis Kelamin" style="@style/TextLabel" />
+                <RadioGroup
+                    android:id="@+id/jenis_kelamin_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Laki-laki"
+                        android:id="@+id/rb_laki"
+
+                        />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Perempuan"
+                        android:id="@+id/rb_perempuan"
+                        />
+                </RadioGroup>
+
+                <!-- Tempat Lahir -->
+                <TextView android:text="Tempat Lahir" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/tempatLahirEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Masukkan tempat lahir"
+                    android:background="@drawable/bg_edittext"
+                    android:textColor="@color/dark_blue" />
+
+                <!-- Tanggal Lahir -->
+                <TextView android:text="Tanggal Lahir" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/tanggalLahirEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="21-mei-2025"
+                    android:focusable="false"
+                    android:textColor="@color/black"
+                    android:inputType="none"
+                    android:drawableEnd="@drawable/baseline_date_range_24" />
+
+
+                <!-- Agama -->
+                <TextView android:text="Agama" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/agamaEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Masukkan agama"
+                    android:background="@drawable/bg_edittext"
+                    android:textColor="@color/dark_blue" />
+
+                <!-- NIS -->
+                <TextView android:text="NIS" style="@style/TextLabel" />
+                <EditText
+                    android:id="@+id/nisEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Masukkan NIS"
+                    android:background="@drawable/bg_edittext"
+                    android:textColor="@color/dark_blue"
+                    android:inputType="number" />
+
+                <!-- Foto -->
+                <Button
+                    android:id="@+id/uploadFotoButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Foto"
+                    android:layout_marginTop="8dp"/>
+                <ImageView
+                    android:id="@+id/imageUploadView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/baseline_image_24"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_edittext"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <!-- Tombol Register -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/registerButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:textColor="@color/white"
+                    android:backgroundTint="#002e58"
+                    android:text="REGISTER"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

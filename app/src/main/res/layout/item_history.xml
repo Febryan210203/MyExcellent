@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/bg_item_history"
+    android:elevation="2dp">
+
+    <!-- Nama Mata Pelajaran dan Guru -->
+    <TextView
+        android:id="@+id/tvMapel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nama Mapel: Matematika"
+        android:textStyle="bold"
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:paddingEnd="8dp" />
+
+    <TextView
+        android:id="@+id/tvGuru"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Guru: Husni"
+        android:textSize="16sp"
+        android:paddingEnd="8dp" />
+
+
+    <!-- Tanggal dan Waktu -->
+    <TextView
+        android:id="@+id/tvTanggal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tanggal mulai: 05 Mei 2025"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:paddingEnd="8dp"/>
+
+    <!-- Jenis Bimbingan -->
+    <TextView
+        android:id="@+id/tvJenis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Layanan: Private"
+        android:textSize="14sp"
+        android:paddingEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/tvHarga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Harga : 150.000"
+        android:textSize="14sp"
+        android:paddingEnd="8dp"/>
+
+    <!-- Status Pembayaran -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status: Selesai"
+        android:textColor="#388E3C"
+        android:textSize="14sp"
+        android:paddingEnd="8dp"/>
+
+    <!-- Button untuk melihat detail -->
+    <Button
+        android:id="@+id/btnDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lihat Detail"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/dark_blue"
+        android:textColor="@color/white"
+        android:layout_gravity="end" />
+</LinearLayout>

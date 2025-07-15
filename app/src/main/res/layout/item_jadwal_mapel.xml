@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    android:background="@color/light_blue"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"
+        android:background="@color/dark_blue"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imgMapel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/guru2"
+            android:contentDescription="Icon Mapel"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/textMapel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Mapel"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/light_blue"
+                android:drawableStart="@drawable/mapel"
+                android:drawablePadding="8dp" />
+
+            <TextView
+                android:id="@+id/textHari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hari dan Jam"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/light_blue"
+                android:drawableStart="@drawable/day"
+                android:drawablePadding="8dp" />
+
+            <TextView
+                android:id="@+id/textJenjang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jenjang"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/light_blue"
+                android:drawableStart="@drawable/timer"
+                android:drawablePadding="8dp" />
+            <TextView
+                android:id="@+id/textGuru"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guru"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/light_blue"
+                android:drawableStart="@drawable/guru"
+                android:drawablePadding="8dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

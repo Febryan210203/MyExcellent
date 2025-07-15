@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context="FiturMenu.UlasanTutorFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Halaman Ulasan Tutor"
+        android:gravity="center"
+        android:textSize="24sp"/>
+</FrameLayout>

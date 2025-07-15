@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147013822020",
+    "project_id": "notification-smarttutor",
+    "storage_bucket": "notification-smarttutor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147013822020:android:72d2523cb93b392addfe11",
+        "android_client_info": {
+          "package_name": "com.example.SmartTutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQyGxX3jJnWEC_UERxghZh6-SIiGJ3KGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

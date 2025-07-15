@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:padding="16dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_blue"
+        android:padding="16dp"
+        android:id="@+id/scrollView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="17dp"
+            android:background="@drawable/rounded_badge2"
+            android:layout_marginBottom="8dp">
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/back"
+                android:contentDescription="Kembali"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:id="@+id/txtSmartTutor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="halaman detail mapel"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Gambar Mapel -->
+        <ImageView
+            android:id="@+id/imgMapel"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bindo" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_blue"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvNamaMapel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Mapel"
+                    android:drawablePadding="8dp"
+                    android:textStyle="bold"
+                    android:textSize="19sp"
+                    android:drawableStart="@drawable/ic_book"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="30dp"/>
+
+                <TextView
+                    android:id="@+id/tvKodeMapel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kode mapel :"
+                    android:textSize="19sp"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/ic_kode"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="30dp"/>
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status: Aktif"
+                    android:drawablePadding="8dp"
+                    android:textSize="19sp"
+                    android:drawableStart="@drawable/ic_info"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="30dp"/>
+                <TextView
+                    android:id="@+id/tvJenjang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jenjang: SMP"
+                    android:drawablePadding="8dp"
+                    android:textSize="19sp"
+                    android:drawableStart="@drawable/ic_schol"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="30dp"/>
+
+                <TextView
+                    android:id="@+id/tvLayanan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Layanan:"
+                    android:drawablePadding="8dp"
+                    android:textSize="19sp"
+                    android:drawableStart="@drawable/phone"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="30dp"/>
+
+                <TextView
+                    android:id="@+id/tvDeskripsi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deskripsi Mapel :"
+                    android:textSize="19sp"
+                    android:drawableStart="@drawable/ic_deskripsi"
+                    android:textColor="@color/black"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="30dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tombol Booking -->
+        <Button
+            android:id="@+id/btnBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Booking Sekarang"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:backgroundTint="@color/dark_blue"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>

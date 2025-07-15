@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/light_blue"
+    android:gravity="center">
+
+    <!-- Gambar Checklist -->
+    <ImageView
+        android:id="@+id/imgChecklist"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/cheklist"
+    android:layout_marginBottom="16dp" />
+
+    <!-- Deskripsi Pembayaran Berhasil -->
+    <TextView
+        android:id="@+id/txtStatusPermohonan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status Permohonan: Menunggu"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:padding="16sp" />
+
+    <!-- Tombol Oke -->
+    <Button
+        android:id="@+id/btnOke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Oke"
+        android:backgroundTint="@color/dark_blue"
+        android:textColor="@color/white"
+        android:padding="8dp" />
+</LinearLayout>
