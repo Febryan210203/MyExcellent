@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class UploadBuktiResponse(
 
+
+
 	@field:SerializedName("code")
 	val code: Int? = null,
 
