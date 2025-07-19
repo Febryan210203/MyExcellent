@@ -4,6 +4,7 @@ import Activity.EditProfileActivity
 import Activity.MyLogin
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,22 +50,26 @@ class ProfileFragment : Fragment() {
 
     // Load data user dari SharedPreferences
     private fun loadUserData() {
-        val sharedPref = requireActivity().getSharedPreferences("UserProfile", AppCompatActivity.MODE_PRIVATE)
+        val sharedPref = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
         val nama = sharedPref.getString("nama", "Nama belum diisi")
         val email = sharedPref.getString("email", "Email belum diisi")
         val alamat = sharedPref.getString("alamat", "Alamat belum diisi")
-        val phone = sharedPref.getString("phone", "No telepon belum diisi")
+        val noHp = sharedPref.getString("nohp", "No telepon belum diisi")
 
         binding.txtNama.text = nama
         binding.txtEmail.text = email
         binding.txtAlamat.text = alamat
-        binding.txtPhone.text = phone
+        binding.txtPhone.text = noHp
+
+
     }
 
     override fun onResume() {
         super.onResume()
         loadUserData() // Perbarui data saat kembali dari EditProfileActivity
+
     }
+
 
     private fun showLogoutDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_logout, null)

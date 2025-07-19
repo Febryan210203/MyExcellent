@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.SmartTutor.R
 import com.example.SmartTutor.databinding.ActivityDetailRiwayatPemesananBinding
 
@@ -29,6 +30,7 @@ class DetailRiwayatPemesananActivity : AppCompatActivity() {
         val Jenjang = intent.getStringExtra("jenjang") ?: "-"
         val NamaLayanan = intent.getStringExtra("nama_layanan") ?: "-"
         val biaya = intent.getIntExtra("biaya", 150)
+        val filePath = intent.getStringExtra("file") // path bukti pembayaran
 
 
         // Set data ke TextView
@@ -38,6 +40,17 @@ class DetailRiwayatPemesananActivity : AppCompatActivity() {
         binding.txtJenjang.text = "jenjang: $Jenjang"
         binding.txtTipe.text = "namalayanan: $NamaLayanan"
         binding.txtTotalHarga.text = "Nominal Registrasi : Rp.${biaya / 150} ribu"
+
+        // Tampilkan gambar bukti pembayaran (jika ada)
+        if (!filePath.isNullOrEmpty()) {
+            val imageUrl = "https://smarttutor.desabinor.id/storage/$filePath"
+            Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.placeholder_image) // opsional
+                .error(R.drawable.eror)          // opsional
+                .into(binding.imgBuktiPembayaran)
+        }
+
 
 
         // (Opsional) Jika kamu ingin mengganti gambar bukti pembayaran dari URL atau URI, bisa juga ditambahkan di sini

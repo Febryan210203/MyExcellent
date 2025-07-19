@@ -10,13 +10,20 @@ import DataJson.MapelResponse
 import DataJson.PermohonanRequest
 import DataJson.PermohonanResponse
 import DataJson.RegisterResponse
+import DataJson.TokenRequest
+import DataJson.TokenResponse
 import DataJson.UploadBuktiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -39,15 +46,18 @@ interface ApiService {
         @Path("id") idPelajar: String,
         @Query("status") status: String
     ): Call<DisetujuiResponse>
-    @POST("bukti-pembayaran")
-    fun getBuktiPembayaran(): Call<UploadBuktiResponse>
     @Multipart
     @POST("bukti-pembayaran")
     suspend fun upload(
-        @Part("id_bukti_pembayaran") idBuktiPembayaran: RequestBody,
         @Part("id_permohonan") idPermohonan: RequestBody,
         @Part pathFile: MultipartBody.Part
-    )
+    ):Response<UploadBuktiResponse>
+    @FormUrlEncoded
+    @POST("device-token")
+    fun sendFcmToken(
+        @Header("Authorization") token: String, // Header Bearer Token
+        @Field("token") fcmToken: String        // Body token (x-www-form-urlencoded)
+    ): Call<TokenResponse>
     @POST("permohonan")
    suspend fun  createPermohonanModel(@Body request: PermohonanRequest): Response<Domain.PermohonanResponse>
     @POST("auth/login")

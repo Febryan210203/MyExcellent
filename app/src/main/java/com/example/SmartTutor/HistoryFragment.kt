@@ -97,7 +97,8 @@ class HistoryFragment : Fragment() {
                                     nama_pelajar = it.namaPelajar,
                                     nama_mapel = it.namaMapel,
                                     jenjang = it.jenjang,
-                                    nama_layanan = it.namaLayanan
+                                    nama_layanan = it.namaLayanan,
+                                    file = it.file
                                 )
                             }
                         )

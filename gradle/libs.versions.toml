@@ -24,6 +24,7 @@ navigationFragmentKtx = "2.9.0"
 mediationTestSuite = "3.0.0"
 firebaseFirestoreKtx = "25.1.4"
 runtimeSavedInstanceState = "1.0.0-alpha11"
+volley = "1.2.1"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -53,6 +54,7 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 mediation-test-suite = { group = "com.google.android.ads", name = "mediation-test-suite", version.ref = "mediationTestSuite" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 androidx-runtime-saved-instance-state = { group = "androidx.compose.runtime", name = "runtime-saved-instance-state", version.ref = "runtimeSavedInstanceState" }
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

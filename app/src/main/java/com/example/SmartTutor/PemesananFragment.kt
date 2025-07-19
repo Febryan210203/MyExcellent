@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.SmartTutor.databinding.FragmentPemesananBinding
 import kotlinx.coroutines.launch
@@ -328,6 +329,11 @@ class PemesananFragment : Fragment() {
             val selectedGuru = binding.spinnerGuru.selectedItem.toString()
             val tanggalMulai = binding.edtTanggalBooking.text.toString()
 
+            if (tanggalMulai.isEmpty()) {
+                Toast.makeText(requireContext(), "silahkan isi tanggal terlebih dahulu", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             // Ambil ID berdasarkan posisi terpilih di spinner
             val mapelId = idMapel
             val guruId = allGuruList[binding.spinnerGuru.selectedItemPosition].id_guru
@@ -339,7 +345,7 @@ class PemesananFragment : Fragment() {
             Jenjang: $selectedJenjang
             Layanan: $selectedLayanan (id: $layananId)
             Jadwal: $selectedJadwal (id: $jadwalId)
-            Guru: $selectedGuru (id: $guruId)z
+            Guru: $selectedGuru (id: $guruId)
             Tanggal Booking: $tanggalMulai
         """.trimIndent())
 

@@ -333,7 +333,10 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
             try {
                 if (response.isSuccessful) {
 
+                    val user = response.body()?.data
                     Log.d("TAG", "registerFetching: $response")
+
+
 
                     val intent = Intent(this@RegisterActivity, MyLogin::class.java)
                     intent.putExtra("nama", response.body()!!.data!!.nama.toString())

@@ -1,5 +1,6 @@
 package Activity
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,7 +25,7 @@ class EditProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, "Semua data harus diisi!", Toast.LENGTH_SHORT).show()
             } else {
                 // Simpan data ke SharedPreferences
-                val sharedPref = getSharedPreferences("UserProfile", MODE_PRIVATE)
+                val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
                 with(sharedPref.edit()) {
                     putString("nama", nama)
                     putString("email", email)

@@ -135,11 +135,15 @@ class MyLogin : AppCompatActivity() {
                         Log.d("TAG", "Login Berhasil: ${response}")
 
                         // Contoh: simpan token ke SharedPreferences (opsional)
+
                         val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                         sharedPref.edit()
-                            .putString("email", result?.email)
                             .putString("nama", result?.nama)
+                            .putString("email", result?.email)
+                            .putString("alamat", result?.alamat)
+                            .putString("nohp", result?.noHp)
                            .putString("id_pelajar", result?.idPelajar)
+                            .putString("access_token", result?.accessToken) // ✅ SIMPAN TOKEN DI SINI
                             .apply()
 
                         val editor = sharedPref.edit()
@@ -150,8 +154,8 @@ class MyLogin : AppCompatActivity() {
                         // Pindah ke MainActivity
 
                         val intent = Intent(this@MyLogin, MainActivity::class.java)
-                        intent.putExtra("email", result?.email)
                         intent.putExtra("nama", result?.nama)
+                        intent.putExtra("email", result?.email)
                         startActivity(intent)
                         finish()
                     } else {

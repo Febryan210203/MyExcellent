@@ -53,6 +53,7 @@ class HistoryAdapter(private val list: List<HistoryModel>) :
             intent.putExtra("tanggal_mulai", item.tanggal_mulai)
             // Tidak ada biaya, jadi sementara diset 0
             intent.putExtra("biaya", 150)
+            intent.putExtra("file", item.file)
             context.startActivity(intent)
         }
     }

@@ -9,6 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,13 +24,17 @@ import com.example.SmartTutor.R
 import com.example.SmartTutor.databinding.ActivityDetailPembokinganBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.FileOutputStream
 import java.text.NumberFormat
 import java.util.*
+import okhttp3.MultipartBody
+
 
 class DetailPembokinganActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailPembokinganBinding
     private var buktiPembayaranUri: Uri? = null
+    private var photo: MultipartBody.Part? = null
 
     // Untuk memilih gambar dari galeri
     private val pickImageLauncher =
@@ -33,8 +42,17 @@ class DetailPembokinganActivity : AppCompatActivity() {
             if (uri != null) {
                 buktiPembayaranUri = uri
                 binding.imgBuktiPembayaran.setImageURI(uri)
+                binding.btnLanjutPembayaran.isEnabled = true // Aktifkan tombol bayar
+                photo = convertImageToMultipart(this@DetailPembokinganActivity, uri)
+
+                Log.d("UPLOAD_BUKTI", "Bukti pembayaran dipilih: $uri")
+                showToast("Bukti pembayaran berhasil dipilih.")
+            } else {
+                Log.e("UPLOAD_BUKTI", "Tidak ada gambar yang dipilih")
+                showToast("Gagal memilih bukti pembayaran.")
             }
         }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,9 +90,10 @@ class DetailPembokinganActivity : AppCompatActivity() {
         binding.txtJenjang.text = "Jenjang: $jenjang"
         binding.txtTipe.text = "Layanan: $namaLayanan"
         binding.txtTanggalBooking.text = "Tanggal Booking: $tanggalBooking"
-// binding.txtTotalHarga.text = biaya.formatRupiah() // jika sudah ada biaya
 
-            uplodbukti()
+
+
+
         // Tombol upload gambar bukti pembayaran
         binding.btnUploadBukti.setOnClickListener {
 
@@ -85,11 +104,22 @@ class DetailPembokinganActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
+
         // Tombol lanjut ke pembayaran
         binding.btnLanjutPembayaran.setOnClickListener {
-            if (buktiPembayaranUri != null) {
-                // Simpan ke riwayat sebelum tampilkan dialog sukses
+            if (buktiPembayaranUri == null) {
+                Log.e("UPLOAD_BUKTI", "Gagal: URI bukti pembayaran NULL")
+                Toast.makeText(this, "Silahkan upload bukti pembayaran terlebih dahulu", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+                // Jika URI tidak null, lanjutkan proses
+                Log.d("UPLOAD_BUKTI", "URI valid, lanjut ke fetchingPermohonan()")
+
+            } else {
+                Log.d("UPLOAD_BUKTI", "URI valid, lanjut proses upload")
                 fetchingPermohonan()
+
+
+                // Simpan ke riwayat sebelum tampilkan dialog sukses
 
                 // Tampilkan animasi dan dialog sukses
                 binding.imgChecklist.apply {
@@ -103,15 +133,54 @@ class DetailPembokinganActivity : AppCompatActivity() {
                 }
 
                 showPaymentSuccessDialog()
+            }
+        }
+
+    }
+    fun createPartFromString(value: String): RequestBody {
+        return value.toRequestBody("text/plain".toMediaTypeOrNull())
+    }
+    fun convertImageToMultipart(context: Context, uri: Uri): MultipartBody.Part? {
+        val contentResolver = context.contentResolver
+        val inputStream = contentResolver.openInputStream(uri) ?: return null
+        val file = File(context.cacheDir, "upload_image.jpg")
+
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        inputStream.close()
+        outputStream.close()
+
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+    }
+
+
+    private fun uploadBuktiPembayaran(idPermohonan: String, uri: MultipartBody.Part?) {
+        lifecycleScope.launch {
+
+            // Panggil endpoint
+            val response = ApiClient.instance.upload( createPartFromString(idPermohonan), uri!!)
+
+            if (response.isSuccessful) {
+                Log.d("cek uplod bukti", "sukses: ${response.body()}")
+                val body = response.body()
+                if (body != null && body.status == true) {
+                    showToast("Upload sukses: ${body.message}")
+                    showPaymentSuccessDialog()
+                } else {
+                    showToast("Gagal: ${body?.message ?: "Respon kosong"}")
+                    Log.d("Upload gagal", "gagal: ${body}")
+                }
             } else {
-                showToast("Silakan upload bukti pembayaran terlebih dahulu.")
+                showToast("Upload gagal: ${response.message()}")
+                Log.d("Upload gagal", "upload gagal: ${response}")
+
             }
         }
     }
 
-    private fun uplodbukti() {
-        ApiClient.instance
-    }
+
+
 
     private fun fetchingPermohonan() {
         lifecycleScope.launch {
@@ -149,7 +218,11 @@ class DetailPembokinganActivity : AppCompatActivity() {
                 val response = ApiClient.instance.createPermohonanModel(permohonanRequest)
 
                 if (response.isSuccessful && response.body()?.status == true) {
-                    Log.d("Permohonan", "Sukses: ${response.body()}")
+                    Log.d("cek permohonan", "Sukses: ${response.body()}")
+                    val idPermohonan = response.body()!!.data?.idPermohonan.toString()
+                    uploadBuktiPembayaran(idPermohonan, photo)
+
+
 
                     Toast.makeText(
                         this@DetailPembokinganActivity,

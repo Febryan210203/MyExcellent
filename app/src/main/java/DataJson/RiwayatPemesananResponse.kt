@@ -1,6 +1,7 @@
 package DataJson
 
 import com.google.gson.annotations.SerializedName
+import java.io.File
 
 data class DisetujuiResponse(
 	@SerializedName("status") val status: Boolean,
@@ -24,5 +25,6 @@ data class DisetujuiDataItem(
 	@SerializedName("nama_pelajar") val namaPelajar: String,
 	@SerializedName("nama_mapel") val namaMapel: String,
 	@SerializedName("jenjang") val jenjang: String,
-	@SerializedName("nama_layanan") val namaLayanan: String
+	@SerializedName("nama_layanan") val namaLayanan: String,
+	@SerializedName("file")  val file: String?
 )

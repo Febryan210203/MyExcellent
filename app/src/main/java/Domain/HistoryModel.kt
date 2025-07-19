@@ -13,5 +13,6 @@ data class HistoryModel(
     val nama_pelajar: String,
     val nama_mapel: String,
     val jenjang: String,
-    val nama_layanan: String
+    val nama_layanan: String,
+    val file: String?
 )
