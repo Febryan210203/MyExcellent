@@ -161,18 +161,22 @@
                         android:textColor="@color/black"
                         android:layout_marginBottom="20dp"/>
 
+                    <!-- Tombol Booking -->
+                    <Button
+                        android:id="@+id/btnBooking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pesan Sekarang"
+                        android:layout_marginTop="10dp"
+                        android:padding="12dp"
+                        android:background="@drawable/custom_button"
+                        android:textSize="16sp"
+                        app:backgroundTint="@color/dark_blue"
+                        android:textColor="@color/white"/>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-            <!-- Tombol Booking -->
-            <Button
-                android:id="@+id/btnBooking"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Booking Sekarang"
-                android:padding="12dp"
-                android:textSize="16sp"
-                android:backgroundTint="@color/dark_blue"
-                android:textColor="@color/white"/>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

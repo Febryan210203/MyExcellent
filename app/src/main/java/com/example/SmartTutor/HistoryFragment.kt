@@ -42,10 +42,6 @@ class HistoryFragment : Fragment() {
         binding.recyclerViewRiwayat.adapter = adapter
         binding.recyclerViewRiwayat.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.btnTambah.setOnClickListener {
-            // pindah ke pemesanan seperti sebelumnya
-        }
-
 
 //        setupRecyclerView()
 //        loadRiwayat()

@@ -12,7 +12,7 @@ data class JadwalModel(
     val created_at: String,
     val updated_at: String,
     val nama_guru: String,
-    val foto_guru: String,
+    val foto_guru: String?,
     val email_guru: String,
     val nama_mapel: String,
     val id_layanan: String,

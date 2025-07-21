@@ -108,8 +108,7 @@ class PemesananFragment : Fragment() {
 
         )
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.spinner_list, list)
-        binding.spinnerJenjang.adapter = arrayAdapter
-
+//        binding.spinnerJenjang.adapter = arrayAdapter
     }
 
     private fun fetchingLayanan() {
@@ -164,7 +163,7 @@ class PemesananFragment : Fragment() {
                                     item.created_at,
                                     item.updated_at,
                                     item.nama_guru,
-                                    item.foto_guru,
+                                    item.foto_guru ?: "", // <- nilai default jika null
                                     item.email_guru,
                                     item.nama_mapel,
                                     item.id_layanan,
@@ -189,10 +188,16 @@ class PemesananFragment : Fragment() {
                 binding.spinnerJadwal.adapter = arrayAdapter
                 // ✅ AUTO SELECT jika idJadwalGuruFromJadwalGuru tidak kosong
                 if (!idJadwalGuruFromJadwalGuru.isNullOrEmpty()) {
-                    val index = jadwalList.indexOfFirst { it.id_jadwal_guru == idJadwalGuruFromJadwalGuru }
+                    val index =
+                        jadwalList.indexOfFirst { it.id_jadwal_guru == idJadwalGuruFromJadwalGuru }
                     if (index != -1) {
                         binding.spinnerJadwal.setSelection(index)
-                        Log.d("SPINNER SELECTED", "Dipilih posisi ke-$index dengan id ${idJadwalGuruFromJadwalGuru}")
+                        binding.spinnerJadwal.isEnabled = false // ✅ Spinner tidak bisa diubah
+                        binding.spinnerJadwal.isClickable = false // ✅ Spinner tidak bisa diklik
+                        Log.d(
+                            "SPINNER SELECTED",
+                            "Dipilih posisi ke-$index dengan id ${idJadwalGuruFromJadwalGuru}"
+                        )
                     } else {
                         Log.d("SPINNER SELECTED", "id_mapel tidak ditemukan dalam list")
                     }
@@ -228,7 +233,12 @@ class PemesananFragment : Fragment() {
                     val index = allGuruList.indexOfFirst { it.id_guru == idGuruFromGuru }
                     if (index != -1) {
                         binding.spinnerGuru.setSelection(index)
-                        Log.d("SPINNER SELECTED", "Dipilih posisi ke-$index dengan id ${idGuruFromGuru}")
+                        binding.spinnerGuru.isEnabled = false // ✅ Spinner tidak bisa diubah
+                        binding.spinnerGuru.isClickable = false // ✅ Spinner tidak bisa diklik
+                        Log.d(
+                            "SPINNER SELECTED",
+                            "Dipilih posisi ke-$index dengan id ${idGuruFromGuru}"
+                        )
                     } else {
                         Log.d("SPINNER SELECTED", "id_guru tidak ditemukan dalam list")
                     }
@@ -246,7 +256,12 @@ class PemesananFragment : Fragment() {
 
     private fun setupNamaGuruListener() {
         binding.spinnerGuru.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 val selectedGuru = allGuruList[position]
 
             }
@@ -288,9 +303,15 @@ class PemesananFragment : Fragment() {
                     // ✅ AUTO SELECT jika idMapelFromMapel tidak kosong
                     if (!idMapelFromMapel.isNullOrEmpty()) {
                         val index = mapelList.indexOfFirst { it.id_mapel == idMapelFromMapel }
+                        //matikan spinner
                         if (index != -1) {
                             binding.spinnerMapel.setSelection(index)
-                            Log.d("SPINNER SELECTED", "Dipilih posisi ke-$index dengan id ${idMapelFromMapel}")
+                            binding.spinnerMapel.isEnabled = false // ✅ Spinner tidak bisa diubah
+                            binding.spinnerMapel.isClickable = false // ✅ Spinner tidak bisa diklik
+                            Log.d(
+                                "SPINNER SELECTED",
+                                "Dipilih posisi ke-$index dengan id ${idMapelFromMapel}"
+                            )
                         } else {
                             Log.d("SPINNER SELECTED", "id_mapel tidak ditemukan dalam list")
                         }
@@ -323,14 +344,17 @@ class PemesananFragment : Fragment() {
     private fun goToDetail() {
         binding.btnBooking.setOnClickListener {
             val selectedNamaMapel = binding.spinnerMapel.selectedItem.toString()
-            val selectedJenjang = binding.spinnerJenjang.selectedItem.toString()
             val selectedLayanan = binding.spinnerNamaLayanan.selectedItem.toString()
             val selectedJadwal = binding.spinnerJadwal.selectedItem.toString()
             val selectedGuru = binding.spinnerGuru.selectedItem.toString()
             val tanggalMulai = binding.edtTanggalBooking.text.toString()
 
             if (tanggalMulai.isEmpty()) {
-                Toast.makeText(requireContext(), "silahkan isi tanggal terlebih dahulu", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "silahkan isi tanggal terlebih dahulu",
+                    Toast.LENGTH_LONG
+                ).show()
                 return@setOnClickListener
             }
 
@@ -340,14 +364,15 @@ class PemesananFragment : Fragment() {
             val layananId = layananList[binding.spinnerNamaLayanan.selectedItemPosition].id_layanan
             val jadwalId = jadwalList[binding.spinnerJadwal.selectedItemPosition].id_jadwal_guru
 
-            Log.d("PemesananFragment", """
+            Log.d(
+                "PemesananFragment", """
             Mapel: $selectedNamaMapel (id: $mapelId)
-            Jenjang: $selectedJenjang
             Layanan: $selectedLayanan (id: $layananId)
             Jadwal: $selectedJadwal (id: $jadwalId)
             Guru: $selectedGuru (id: $guruId)
             Tanggal Booking: $tanggalMulai
-        """.trimIndent())
+        """.trimIndent()
+            )
 
             val intent = Intent(requireContext(), DetailPembokinganActivity::class.java).apply {
                 putExtra("id_mapel", mapelId)
@@ -362,7 +387,7 @@ class PemesananFragment : Fragment() {
                 putExtra("id_guru", guruId)
                 putExtra("nama_guru", selectedGuru)
 
-                putExtra("jenjang", selectedJenjang)
+//                putExtra("jenjang", selectedJenjang)
                 putExtra("tanggal_mulai", tanggalMulai)
             }
 
@@ -392,7 +417,8 @@ class PemesananFragment : Fragment() {
             // pilihTanggal() // hapus atau dikomentari
         }
     }
-            override fun onDestroyView() {
+
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
 

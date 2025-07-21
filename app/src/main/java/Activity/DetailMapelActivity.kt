@@ -1,14 +1,9 @@
 package Activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.bumptech.glide.Glide
 import com.example.SmartTutor.PemesananFragment
 import com.example.SmartTutor.R
 import com.example.SmartTutor.databinding.ActivityDetailMapelBinding
@@ -61,7 +56,6 @@ class DetailMapelActivity : AppCompatActivity() {
                 putString("id_mapel", idMapel)
                 putString("statusmapel", "mapel")
 
-                //kirim id mapel
             }
 
             // Inisialisasi Fragment dan kirim data

@@ -41,7 +41,6 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             startActivity(intent)
         }
-
         // Tombol Logout
         binding.btnLogout.setOnClickListener {
             showLogoutDialog()
@@ -50,7 +49,8 @@ class ProfileFragment : Fragment() {
 
     // Load data user dari SharedPreferences
     private fun loadUserData() {
-        val sharedPref = requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
+        val sharedPref =
+            requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
         val nama = sharedPref.getString("nama", "Nama belum diisi")
         val email = sharedPref.getString("email", "Email belum diisi")
         val alamat = sharedPref.getString("alamat", "Alamat belum diisi")
@@ -60,8 +60,6 @@ class ProfileFragment : Fragment() {
         binding.txtEmail.text = email
         binding.txtAlamat.text = alamat
         binding.txtPhone.text = noHp
-
-
     }
 
     override fun onResume() {

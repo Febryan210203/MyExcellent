@@ -228,16 +228,6 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
                 else -> ""
             }
             Log.d("YOLO", "cek jeniskelamin: $jenisKelamin")
-
-
-            //validasi
-
-//            if (nama.isEmpty() || email.isEmpty() || password.isEmpty() || no_hp.isEmpty() || alamat.isEmpty() || toString().isNullOrEmpty()
-//                || password_confirmation.isEmpty() || jenisKelamin.isEmpty() || tanggal_lahir.isEmpty() || tempat_lahir.isEmpty() || agama.isEmpty() || nis.isEmpty()) {
-//                Toast.makeText(this, "Semua field harus diisi", Toast.LENGTH_SHORT).show()
-//            } else if (password != password_confirmation) {
-//                Toast.makeText(this, "Password tidak sama", Toast.LENGTH_SHORT).show()
-//            } // Panggil API login
             Log.d("TAG", "cek registerbutton: $jenisKelamin ")
 
             registerFetching(

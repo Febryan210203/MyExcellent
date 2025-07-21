@@ -95,7 +95,7 @@ class JadwalGuruActivity : AppCompatActivity() {
                                     item.created_at,
                                     item.updated_at,
                                     item.nama_guru,
-                                    item.foto_guru,
+                                    item.foto_guru ?: "", // <- nilai default jika null
                                     item.email_guru,
                                     item.nama_mapel,
                                     item.id_layanan,

@@ -8,6 +8,7 @@ import Adapter.GuruAdapter
 import ApiService.ApiClient
 import DataJson.TokenResponse
 import Domain.CardModel
+import Profile.ProfileFragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -85,13 +86,12 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.imageView6.setOnClickListener {
-            val intent = Intent(requireContext(), EditProfileActivity::class.java)
-            startActivity(intent)
+            val fragment = ProfileFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, fragment) // Ganti R.id.frame_layout dengan ID container fragment-mu
+                .addToBackStack(null) // agar bisa kembali ke fragment sebelumnya
+                .commit()
         }
-//        binding.imageView7.setOnClickListener {
-//            val intent = Intent(requireContext(), NotifikasiActivity::class.java)
-//            startActivity(intent)
-//        }
 
         binding.cardView02.setOnClickListener {
             val intent = Intent(requireContext(), GuruActivity::class.java)

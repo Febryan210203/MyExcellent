@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="halaman detail mapel"
+            android:text="halaman detail Jadwal Guru"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
