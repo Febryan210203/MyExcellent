@@ -80,13 +80,6 @@ class PemesananFragment : Fragment() {
 
         adapter = ItemGuruAdapter(mutableListOf())
 
-
-        // Tombol kembali ke HomeActivity
-        binding.btnBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-
-
         fetchingMapel()
         fetchingJenjang()
         fetchingLayanan()
@@ -97,6 +90,19 @@ class PemesananFragment : Fragment() {
 
         // Tombol Booking ke DetailPembokinganActivity
         goToDetail()
+
+        // Set click listener untuk tombol back
+        binding.btnBack.setOnClickListener {
+            navigateToHomeFragment()
+        }
+    }
+
+    private fun navigateToHomeFragment() {
+        // Cara 1: Navigasi langsung ke HomeFragment
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, HomeFragment()) // Ganti dengan ID container yang sesuai
+            .addToBackStack(null) // Opsional: jika ingin bisa kembali dengan tombol back
+            .commit()
     }
 
 
@@ -220,29 +226,13 @@ class PemesananFragment : Fragment() {
                     allGuruList = response.body()?.data ?: emptyList()
                     Log.d("GuruActivity", "Jumlah data guru: ${allGuruList}")
                     adapter.updateData(allGuruList)
+
+                    selectGuruSpinner(allGuruList)
                 } else {
                     // Log.e("GuruActivity", "Gagal mendapatkan data: ${response.message()}")
                     // Toast.makeText(this@GuruActivity, "Gagal mendapatkan data dari server", Toast.LENGTH_SHORT).show()
                 }
-                val spinnerGuru = allGuruList.map { it.nama_guru }
-                val arrayAdapter =
-                    ArrayAdapter(requireContext(), R.layout.spinner_list, spinnerGuru)
-                binding.spinnerGuru.adapter = arrayAdapter
-                // ✅ AUTO SELECT jika idGuruFromGuru tidak kosong
-                if (!idGuruFromGuru.isNullOrEmpty()) {
-                    val index = allGuruList.indexOfFirst { it.id_guru == idGuruFromGuru }
-                    if (index != -1) {
-                        binding.spinnerGuru.setSelection(index)
-                        binding.spinnerGuru.isEnabled = false // ✅ Spinner tidak bisa diubah
-                        binding.spinnerGuru.isClickable = false // ✅ Spinner tidak bisa diklik
-                        Log.d(
-                            "SPINNER SELECTED",
-                            "Dipilih posisi ke-$index dengan id ${idGuruFromGuru}"
-                        )
-                    } else {
-                        Log.d("SPINNER SELECTED", "id_guru tidak ditemukan dalam list")
-                    }
-                }
+
 
                 setupNamaGuruListener()
             }
@@ -254,6 +244,8 @@ class PemesananFragment : Fragment() {
         })
     }
 
+
+
     private fun setupNamaGuruListener() {
         binding.spinnerGuru.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -263,6 +255,7 @@ class PemesananFragment : Fragment() {
                 id: Long
             ) {
                 val selectedGuru = allGuruList[position]
+                idGuruFromGuru = selectedGuru.id_guru
 
             }
 
@@ -312,6 +305,8 @@ class PemesananFragment : Fragment() {
                                 "SPINNER SELECTED",
                                 "Dipilih posisi ke-$index dengan id ${idMapelFromMapel}"
                             )
+
+                            fetchingGuruByIdMapel(idMapelFromMapel)
                         } else {
                             Log.d("SPINNER SELECTED", "id_mapel tidak ditemukan dalam list")
                         }
@@ -325,6 +320,130 @@ class PemesananFragment : Fragment() {
             }
         }
     }
+
+    private fun fetchingGuruByIdMapel(idMapelFromMapel: String) {
+        ApiClient.instance.getGuruByIdMapel(idMapelFromMapel).enqueue(object : Callback<GuruResponse> {
+            override fun onResponse(call: Call<GuruResponse>, response: Response<GuruResponse>) {
+                if (response.isSuccessful && response.body()?.status == true) {
+                    allGuruList = response.body()?.data ?: emptyList()
+
+                    selectGuruSpinner(allGuruList)
+                } else {
+                    Log.e("GuruActivity", "Gagal mendapatkan data: ${response.message()}")
+                    Toast.makeText(requireContext(), "Gagal mendapatkan data dari server", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<GuruResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Kesalahan jaringan: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("GuruActivity", "Kesalahan API: ${t.message}")
+            }
+        })
+    }
+
+    private fun selectGuruSpinner(allGuruList: List<GuruModel>) {
+        val spinnerGuru = allGuruList.map { it.nama_guru }
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.spinner_list, spinnerGuru)
+        binding.spinnerGuru.adapter = arrayAdapter
+        // ✅ AUTO SELECT jika idGuruFromGuru tidak kosong
+        if (!idGuruFromGuru.isNullOrEmpty()) {
+            val index = allGuruList.indexOfFirst { it.id_guru == idGuruFromGuru }
+            if (index != -1) {
+                binding.spinnerGuru.setSelection(index)
+                binding.spinnerGuru.isEnabled = false // ✅ Spinner tidak bisa diubah
+                binding.spinnerGuru.isClickable = false // ✅ Spinner tidak bisa diklik
+                Log.d("selectGuruSpinner", "${allGuruList[index].nama_guru}")
+
+                fetchingJadwalGuruByGuru(idGuruFromGuru)
+            } else {
+                Log.d("SPINNER SELECTED", "id_guru tidak ditemukan dalam list")
+            }
+        }
+    }
+
+    private fun fetchingJadwalGuruByGuru(idGuruFromGuru: String) {
+        ApiClient.instance.getJadwalGuruByIdGuru(idGuruFromGuru).enqueue(object : retrofit2.Callback<JadwalResponse> {
+            override fun onResponse(
+                call: Call<JadwalResponse>,
+                response: Response<JadwalResponse>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { res ->
+                        if (res.status) {
+                            Log.d(
+                                "Cek jadwal guru",
+                                "response = ${res.data}"
+                            )
+
+                            // Mapping response ke jadwalList
+                            val listBaru = res.data.map { item ->
+                                JadwalModel(
+                                    item.id_jadwal_guru,
+                                    item.hari,
+                                    item.jam_mulai,
+                                    item.jam_selesai,
+                                    item.id_guru,
+                                    item.id_mapel,
+                                    item.deleted_at,
+                                    item.status,
+                                    item.created_at,
+                                    item.updated_at,
+                                    item.nama_guru,
+                                    item.foto_guru ?: "", // <- nilai default jika null
+                                    item.email_guru,
+                                    item.nama_mapel,
+                                    item.id_layanan,
+                                    item.nama_layanan
+                                )
+                            }
+                            jadwalList.clear()
+                            jadwalList.addAll(listBaru)
+
+                        }
+                        filteredJadwalList = jadwalList.toMutableList()
+//
+
+                        selectJadwalGuruSpinner(filteredJadwalList)
+
+                    }
+                } else {
+//                        Log.e("JadwalMapelActivity", "Response tidak sukses")
+                }
+
+            }
+
+            override fun onFailure(call: Call<JadwalResponse>, t: Throwable) {
+//                    Log.e("JadwalMapelActivity", "fetchJadwal error!", t)
+            }
+
+        })
+
+    }
+
+    private fun selectJadwalGuruSpinner(filteredJadwalList: MutableList<JadwalModel>) {
+        val spinnerJadwalMapel = filteredJadwalList.map { it.hari }
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.spinner_list, spinnerJadwalMapel)
+        binding.spinnerJadwal.adapter = arrayAdapter
+        // ✅ AUTO SELECT jika idJadwalGuruFromJadwalGuru tidak kosong
+        if (!idJadwalGuruFromJadwalGuru.isNullOrEmpty()) {
+            val index =
+                jadwalList.indexOfFirst { it.id_jadwal_guru == idJadwalGuruFromJadwalGuru }
+            if (index != -1) {
+                binding.spinnerJadwal.setSelection(index)
+                binding.spinnerJadwal.isEnabled = false // ✅ Spinner tidak bisa diubah
+                binding.spinnerJadwal.isClickable = false // ✅ Spinner tidak bisa diklik
+                Log.d(
+                    "SPINNER SELECTED",
+                    "Dipilih posisi ke-$index dengan id ${idJadwalGuruFromJadwalGuru}"
+                )
+            } else {
+                Log.d("SPINNER SELECTED", "id_mapel tidak ditemukan dalam list")
+            }
+        }
+    }
+
 
     private fun setupNamaMapelListener() {
         binding.spinnerMapel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -15,15 +15,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.SmartTutor.databinding.FragmentHistoryBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Response
 
 class HistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentHistoryBinding
+
+
     private lateinit var adapter: HistoryAdapter
     private val riwayatList = ArrayList<HistoryModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,36 +35,32 @@ class HistoryFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
         adapter = HistoryAdapter(riwayatList)
         binding.recyclerViewRiwayat.adapter = adapter
         binding.recyclerViewRiwayat.layoutManager = LinearLayoutManager(requireContext())
 
-
-//        setupRecyclerView()
-//        loadRiwayat()
-
-        binding.btnTambah.setOnClickListener {
-            // Pindah fragment
-            val fragment = PemesananFragment()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, fragment)
-                .addToBackStack(null)
-                .commit()
-
-            // Ubah item yang dipilih di BottomNavigationView
-            val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-            bottomNav.selectedItemId = R.id.pembokingan  // ID dari item di bottom_nav.xml
-        }
         fetchHistory()
+
+        // Set click listener untuk tombol tambah
+        binding.btnTambah.setOnClickListener {
+            navigateToPemesananFragment()
+        }
+    }
+
+    private fun navigateToPemesananFragment() {
+        val pemesananFragment = PemesananFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, pemesananFragment) // Ganti dengan ID container yang sesuai
+            .addToBackStack(null) // Tambahkan ke back stack agar bisa kembali
+            .commit()
     }
 
     private fun fetchHistory() {
         val sharedPref = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        Log.d("SHARED_PREF", "ID Pelajar: ${sharedPref.getString("id_pelajar", "NOT_FOUND")}")
         val idPelajar = sharedPref.getString("id_pelajar", "") ?: ""
 
         ApiClient.instance.getPermohonanDisetujui(idPelajar, "disetujui")
@@ -74,6 +72,7 @@ class HistoryFragment : Fragment() {
                     if (response.isSuccessful && response.body()?.status == true) {
                         val data = response.body()?.data ?: emptyList()
                         riwayatList.clear()
+                        Log.d("FETCH_HISTORY", "ID Pelajar: $idPelajar")
                         Log.d("FETCH_HISTORY", "Jumlah data: ${data.size}")
 
                         riwayatList.addAll(
@@ -113,5 +112,5 @@ class HistoryFragment : Fragment() {
             })
     }
 
-
 }
+

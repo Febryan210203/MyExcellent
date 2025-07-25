@@ -35,10 +35,15 @@ interface ApiService {
     suspend fun getMapel(): Response<MapelResponse>
     @GET("guru") // Ganti dengan endpoint yang sesuai
     fun getGuruModel(): Call<GuruResponse>
+    @GET("guru/guru-by-idmapel/{idmapel}")
+    fun getGuruByIdMapel(@Path("idmapel") idMapel : String): Call<GuruResponse>
     @GET("layanan")
     fun getLayanan(): Call<LayananResponse>
     @GET("jadwal")
     fun getJadwalModel(): Call<JadwalResponse>
+
+    @GET("jadwal/guruByid/{idguru}")
+    fun getJadwalGuruByIdGuru(@Path("idguru") idGuru: String): Call<JadwalResponse>
     @GET("permohonan")
     fun  getPermohonanModel(): Call<PermohonanResponse>
     @GET("permohonan/by-pelajar/{id}/semua")

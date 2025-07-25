@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import Domain.CardModel
 import com.example.SmartTutor.databinding.ActivityItemGuruBinding
 
-class GuruAdapter(private val context: Context, private val dataList: List<CardModel>) :
+class GuruAdapter(private val dataList: List<CardModel>) :
     RecyclerView.Adapter<GuruAdapter.GuruViewHolder>() {
 
     inner class GuruViewHolder(private val binding: ActivityItemGuruBinding) :
@@ -22,7 +22,7 @@ class GuruAdapter(private val context: Context, private val dataList: List<CardM
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuruViewHolder {
-        val binding = ActivityItemGuruBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ActivityItemGuruBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return GuruViewHolder(binding)
     }
 

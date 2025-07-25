@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -32,8 +33,6 @@ import java.util.Calendar
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-//    private var jenisKelaminValue: String = ""
-//    private var selectedImageUri: Uri? = null
 private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
@@ -60,7 +59,7 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
                 }
             }
 
-        binding.imageUploadView.setOnClickListener {
+        binding.uploadFotoButton.setOnClickListener {
             checkAndRequestPermission()
 
         }
@@ -188,6 +187,13 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
             checkAndRequestPermission()
         }
 
+        binding.txtSignIn.setOnClickListener {
+            Log.d("cek tombol", "TextView diklik")  // <--- cek apakah log ini muncul
+            val intent = Intent(this, MyLogin::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         val calendar = Calendar.getInstance()
 
 
@@ -221,6 +227,8 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
             val tempat_lahir = binding.tempatLahirEditText.text.toString().trim()
             val agama = binding.agamaEditText.text.toString().trim()
             val nis = binding.nisEditText.text.toString().trim()
+
+
 
             val jenisKelamin = when {
                 binding.rbLaki.isChecked -> "L"
@@ -326,6 +334,14 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
                     val user = response.body()?.data
                     Log.d("TAG", "registerFetching: $response")
 
+                    // Simpan data ke SharedPreferences
+                    val sharedPref = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+                    val editor = sharedPref.edit()
+
+                    editor.putString("nama", user?.nama)
+                    editor.putString("foto", user?.foto) // pastikan ini berisi URL atau nama file
+                    editor.putString("email", email)
+                    editor.apply()
 
 
                     val intent = Intent(this@RegisterActivity, MyLogin::class.java)
@@ -339,7 +355,6 @@ private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
                 e.printStackTrace()
                 Log.e("error", e.message.toString())
             }
-
         }
     }
 }

@@ -71,8 +71,6 @@ class DetailPembokinganActivity : AppCompatActivity() {
         val tanggalBooking = intent.getStringExtra("tanggal_mulai")
         val jadwal = intent.getStringExtra("jadwal")
         val idJadwal = intent.getStringExtra("id_jadwal")
-
-// Log untuk debugging
         Log.d(
             "DetailPembokingan", """
     Mapel: $namaMapel (ID: $idMapel)
@@ -83,8 +81,6 @@ class DetailPembokinganActivity : AppCompatActivity() {
     Tanggal Booking: $tanggalBooking
 """.trimIndent()
         )
-
-// Tampilkan ke UI
         binding.txtMapel.text = "Mapel: $namaMapel"
         binding.txtGuru.text = "Guru: $namaGuru"
         binding.txtJenjang.text = "Jenjang: $jenjang"
@@ -114,6 +110,13 @@ class DetailPembokinganActivity : AppCompatActivity() {
                 // Jika URI tidak null, lanjutkan proses
                 Log.d("UPLOAD_BUKTI", "URI valid, lanjut ke fetchingPermohonan()")
 
+                // Validasi ukuran file maksimal 2MB
+                val fileSize = getFileSizeFromUri(this, buktiPembayaranUri!!)
+                if (fileSize > 2 * 1024 * 1024) { // 2MB = 2 x 1024 x 1024
+                    Toast.makeText(this, "Silahkan pilih gambar maksimal ukuran 2MB", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
             } else {
                 Log.d("UPLOAD_BUKTI", "URI valid, lanjut proses upload")
                 fetchingPermohonan()
@@ -137,6 +140,17 @@ class DetailPembokinganActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun getFileSizeFromUri(context: Context, uri: Uri): Long {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)
+        returnCursor?.use {
+            val sizeIndex = it.getColumnIndex(android.provider.OpenableColumns.SIZE)
+            it.moveToFirst()
+            return it.getLong(sizeIndex)
+        }
+        return 0L
+    }
+
     fun createPartFromString(value: String): RequestBody {
         return value.toRequestBody("text/plain".toMediaTypeOrNull())
     }

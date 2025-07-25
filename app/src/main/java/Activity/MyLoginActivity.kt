@@ -109,6 +109,12 @@ class MyLogin : AppCompatActivity() {
             insets
         }
 
+        // Fungsi ketika TextView "Buat Akun?" diklik
+        binding.BuatAkunText.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
 
         // Tombol login ditekan
         binding.loginButton.setOnClickListener {
@@ -144,6 +150,7 @@ class MyLogin : AppCompatActivity() {
                             .putString("nohp", result?.noHp)
                            .putString("id_pelajar", result?.idPelajar)
                             .putString("access_token", result?.accessToken) // ✅ SIMPAN TOKEN DI SINI
+                            .putString("foto", result?.foto)
                             .apply()
 
                         val editor = sharedPref.edit()

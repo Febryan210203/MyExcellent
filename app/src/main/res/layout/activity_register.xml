@@ -38,10 +38,11 @@
                     android:layout_marginTop="30dp" />
 
                 <TextView
+                    android:id="@+id/txtSignIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sign In To Continue"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#fff"
                     android:layout_marginLeft="25dp"
                     android:layout_marginBottom="40dp" />
@@ -147,7 +148,8 @@
                 </RadioGroup>
 
                 <!-- Tempat Lahir -->
-                <TextView android:text="Tempat Lahir" style="@style/TextLabel" />
+                <TextView android:text="Tempat Lahir"
+                    style="@style/TextLabel" />
                 <EditText
                     android:id="@+id/tempatLahirEditText"
                     android:layout_width="match_parent"

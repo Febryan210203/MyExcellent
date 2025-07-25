@@ -1,6 +1,7 @@
 package Profile
 
 import Activity.EditProfileActivity
+import Activity.InitialLoginPageActivity
 import Activity.MyLogin
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.SmartTutor.R
 import com.example.SmartTutor.databinding.FragmentProfileBinding
 
@@ -34,20 +36,14 @@ class ProfileFragment : Fragment() {
 
 
         loadUserData()
-
-
-        // Tombol Edit Profile
         binding.btnEditProfil.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java)
             startActivity(intent)
         }
-        // Tombol Logout
         binding.btnLogout.setOnClickListener {
             showLogoutDialog()
         }
     }
-
-    // Load data user dari SharedPreferences
     private fun loadUserData() {
         val sharedPref =
             requireActivity().getSharedPreferences("MyAppPrefs", AppCompatActivity.MODE_PRIVATE)
@@ -55,11 +51,18 @@ class ProfileFragment : Fragment() {
         val email = sharedPref.getString("email", "Email belum diisi")
         val alamat = sharedPref.getString("alamat", "Alamat belum diisi")
         val noHp = sharedPref.getString("nohp", "No telepon belum diisi")
+        val foto= sharedPref.getString("foto", "")
+        val fotoProfil = "https://smarttutor.desabinor.id/storage/$foto"
 
         binding.txtNama.text = nama
         binding.txtEmail.text = email
         binding.txtAlamat.text = alamat
         binding.txtPhone.text = noHp
+
+        Glide.with(requireContext())
+            .load(fotoProfil)
+            .circleCrop()
+            .into(binding.imageView4)
     }
 
     override fun onResume() {
@@ -86,7 +89,7 @@ class ProfileFragment : Fragment() {
 
         confirmButton.setOnClickListener {
             Toast.makeText(requireContext(), "Logout Berhasil", Toast.LENGTH_SHORT).show()
-            val intent = Intent(requireContext(), MyLogin::class.java)
+            val intent = Intent(requireContext(), InitialLoginPageActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             alertDialog.dismiss()

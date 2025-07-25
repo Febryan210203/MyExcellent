@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.SmartTutor.databinding.FragmentHomeBinding
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -37,7 +39,9 @@ class HomeFragment : Fragment() {
 
         // Ambil token FCM saat fragment dibuat
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
+            if (!isAdded || view == null)  {
+                return@addOnCompleteListener
+
                 val token = task.result
                 Log.d(TAG, "Token FCM: $token")
 //                sendTokenToServer(token)
@@ -75,11 +79,20 @@ class HomeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val email = sharedPref.getString("email", "Email belum disimpan")
         val nama = sharedPref.getString("nama", "Nama belum diisi")
+        val fotoUrl = sharedPref.getString("foto", null)
         val token = sharedPref.getString("access_token", null)
+
+        if (!fotoUrl.isNullOrEmpty()) {
+            Glide.with(this)
+                .load("https://smarttutor.desabinor.id/storage/$fotoUrl")
+                .circleCrop()
+                .into(binding.imageView6)
+        }
 
         Log.d("Token", "Access Token: $token")
         binding.txtViewEmail.text = email
         binding.textView6.text = nama
+        binding.imageView6.setImageURI(fotoUrl!!.toUri())
 
         binding.cardView01.setOnClickListener {
             val intent = Intent(requireContext(), MapelActivity::class.java)
@@ -131,7 +144,7 @@ class HomeFragment : Fragment() {
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = GuruAdapter(requireContext(), dataList)
+        binding.recyclerView.adapter = GuruAdapter(dataList)
         // Menggunakan dataList yang benar
 
 
@@ -151,7 +164,7 @@ class HomeFragment : Fragment() {
             Log.d("Token", "Token login tidak ditemukan")
             return
         }
-        val bearerToken = "119|tGecog44WLe3Vu7v6MPk1Jfq9saL24AkwcbgN6S43a6e4c69" // Ganti token ini dengan token login user sebenarnya
+//        val bearerToken = "119|tGecog44WLe3Vu7v6MPk1Jfq9saL24AkwcbgN6S43a6e4c69" // Ganti token ini dengan token login user sebenarnya
 
         ApiClient.instance.sendFcmToken("Bearer $userToken", token!!)
             .enqueue(object : retrofit2.Callback<TokenResponse> {
@@ -178,8 +191,8 @@ class HomeFragment : Fragment() {
 
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 }
